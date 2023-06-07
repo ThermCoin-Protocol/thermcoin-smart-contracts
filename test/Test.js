@@ -10,7 +10,6 @@ describe("ThermCoin", function () {
   // and reset Hardhat Network to that snapshot in every test.
 
   const initialSupply = 10;
-  const feeScalingFactor = 1;
   const baseTxFee = 1;
   const feeIncrement = 0;
   const volumeThreshold = 1000;
@@ -144,7 +143,6 @@ describe("Meta Transactions", function () {
   let addrs;
 
   const initialSupply = 10;
-  const feeScalingFactor = 1;
   const baseTxFee = 1;
   const feeIncrement = 0;
   const volumeThreshold = 100;
