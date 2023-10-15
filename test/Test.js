@@ -5,18 +5,12 @@ const {
 const { expect } = require("chai");
 
 describe("ThermCoin", function () {
-  // We define a fixture to reuse the same setup in every test.
-  // We use loadFixture to run this setup once, snapshot that state,
-  // and reset Hardhat Network to that snapshot in every test.
-
   const initialSupply = 10;
   const baseTxFee = 1;
   const feeIncrement = 0;
   const volumeThreshold = 1000;
-  const supplyDelta = 10;
 
   async function deployThermCoinFixture() {
-    // Contracts are deployed using the first signer/account by default
     const [owner, otherAccount] = await ethers.getSigners();
 
     const ThermCoin = await ethers.getContractFactory("ThermCoin");
@@ -35,16 +29,6 @@ describe("ThermCoin", function () {
       const { token, owner } = await loadFixture(deployThermCoinFixture);
       const total = await token.totalSupply();
       expect(total).to.equal(await token.balanceOf(owner.address));
-    });
-    it("Owner should be in holder list", async function () {
-      const { token, owner } = await loadFixture(deployThermCoinFixture);
-      const holderList = await token.getHolders();
-      expect(holderList[0]).to.equal(owner.address);
-    });
-    it("HolderList should be size of 1", async function () {
-      const { token } = await loadFixture(deployThermCoinFixture);
-      const holderList = await token.getHolders();
-      expect(holderList.length).to.equal(1);
     });
     it("Should have correct fee params", async function () {
       const { token } = await loadFixture(deployThermCoinFixture);
@@ -67,68 +51,6 @@ describe("ThermCoin", function () {
       const { token, otherAccount } = await loadFixture(deployThermCoinFixture);
       await expect(
         token.connect(otherAccount).setFeeParams(2, 2, 2)
-      ).to.be.revertedWith("Ownable: caller is not the owner");
-    });
-  });
-  describe("Holder List", function () {
-    it("Should add to holder list on transfer", async function () {
-      const { token, owner, otherAccount } = await loadFixture(
-        deployThermCoinFixture
-      );
-      await token.transfer(otherAccount.address, 100);
-      const holderList = await token.getHolders();
-      expect(holderList[1]).to.equal(otherAccount.address);
-    });
-    it("Should remove from holder list on transfer", async function () {
-      const { token, owner, otherAccount } = await loadFixture(
-        deployThermCoinFixture
-      );
-      await token.transfer(otherAccount.address, 100);
-      await token
-        .connect(otherAccount)
-        .transfer(owner.address, token.balanceOf(otherAccount.address));
-      const holderList = await token.getHolders();
-      expect(holderList.length).to.equal(1);
-    });
-    it("Should add to holder list on mint", async function () {
-      const { token, owner, otherAccount } = await loadFixture(
-        deployThermCoinFixture
-      );
-      await token.mint(otherAccount.address, 100);
-      const holderList = await token.getHolders();
-      expect(holderList[1]).to.equal(otherAccount.address);
-    });
-  });
-  describe("Rebase", function () {
-    it("Should rebase correctly", async function () {
-      const { token, owner, otherAccount } = await loadFixture(
-        deployThermCoinFixture
-      );
-      await token.mint(otherAccount.address, 10);
-      const initialOwnerBalance = await token.balanceOf(owner.address);
-      const initialOtherAccountBalance = await token.balanceOf(
-        otherAccount.address
-      );
-      await token.rebaseAllAccounts(supplyDelta, true);
-      const finalOwnerBalance = await token.balanceOf(owner.address);
-      const finalOtherAccountBalance = await token.balanceOf(
-        otherAccount.address
-      );
-      expect(finalOwnerBalance).to.equal(
-        initialOwnerBalance.add(
-          ethers.utils.parseEther(supplyDelta.toString()).div(2)
-        )
-      );
-      expect(finalOtherAccountBalance).to.equal(
-        initialOtherAccountBalance.add(
-          ethers.utils.parseEther(supplyDelta.toString()).div(2)
-        )
-      );
-    });
-    it("Should not allow non-owner to rebase", async function () {
-      const { token, otherAccount } = await loadFixture(deployThermCoinFixture);
-      await expect(
-        token.connect(otherAccount).rebaseAllAccounts(supplyDelta, true)
       ).to.be.revertedWith("Ownable: caller is not the owner");
     });
   });

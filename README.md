@@ -2,7 +2,7 @@
 
 ## --- Addresses ---
 
-Contract: 0x943C36AC7eDf7889610f7A2ecB1C2a479bE6De24 <br/>
+Contract: 0xB5db108Cb7378c2Fd680e934686BCb81F63aDB49 <br/>
 Owner: 0xb0b85Ae295dDa42E7E189864cA1251703F3b8254 <br/>
 
 ## --- TCFT/ERC20 High Level Overview ---

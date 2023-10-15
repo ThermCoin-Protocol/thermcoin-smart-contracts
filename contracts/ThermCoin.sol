@@ -5,12 +5,12 @@ import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
 import "@openzeppelin/contracts/token/ERC20/extensions/ERC20Burnable.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 import "@openzeppelin/contracts/utils/math/SafeMath.sol";
-import "./ERC20Rebasable.sol";
+import "./Rebasable.sol";
 
 // import console
 import "hardhat/console.sol";
 
-contract ThermCoin is ERC20Rebasable, Ownable {
+contract ThermCoin is Rebasable, Ownable {
     // Tokenomics
     uint256 private _baseFee; // Transaction fee (in wei)
     uint256 private _feeIncrement; // Fee increment (in wei)
@@ -29,7 +29,7 @@ contract ThermCoin is ERC20Rebasable, Ownable {
         uint256 baseFee,
         uint256 feeIncrement,
         uint256 volumeThreshold
-    ) ERC20Rebasable("ThermCoin", "BTUC") {
+    ) Rebasable("ThermCoin", "BTUC") {
         _mint(msg.sender, premintAmt * 10 ** decimals());
         _lastBlockNum = block.number;
         _baseFee = baseFee;
@@ -41,11 +41,11 @@ contract ThermCoin is ERC20Rebasable, Ownable {
 
     // Change each account's balance to match the new total supply
     function rebase(uint256 percentageChange) public onlyOwner {
-        _rebase(percentageChange);
+        _rebase(int256(percentageChange));
     }
 
     function mint(address to, uint256 amount) public onlyOwner {
-        _mint(to, amount);
+        _mint(to, amount * 10 ** decimals());
     }
 
     /* -------------------------- */

@@ -7,7 +7,7 @@
 const hre = require("hardhat");
 
 async function main() {
-  const premintAmt = 1000000;
+  const premintAmt = 1000000000;
   const baseTxFee = 1;
   const feeIncrement = 1;
   const volumeThreshold = 1000;
@@ -33,8 +33,7 @@ async function main() {
     "Deployer balance: ",
     hre.ethers.utils.formatUnits(await token.balanceOf(deployer.address), 18)
   );
-  const holderList = await token.getHolders();
-  console.log("Holder list:", holderList);
+  console.log(await token.getScalingFactor());
 }
 
 main()
