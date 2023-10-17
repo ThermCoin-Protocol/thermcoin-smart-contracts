@@ -18,12 +18,12 @@ contract Rebasable is Context, IERC20, IERC20Metadata {
 
     string private _name;
     string private _symbol;
-    uint256 private _scalingFactor;
+    uint256 private _scalingFactor; // 100 = 1.00x, 200 = 2.00x, etc.
 
     constructor(string memory name_, string memory symbol_) {
         _name = name_;
         _symbol = symbol_;
-        _scalingFactor = 1 * 10 ** scalingDecimals();
+        _scalingFactor = 100;
     }
 
     event Rebase(uint256 oldScalingFactor, uint256 newScalingFactor);
@@ -223,22 +223,13 @@ contract Rebasable is Context, IERC20, IERC20Metadata {
 
     /* ------- TOKEN REBASE ------- */
 
-    function _rebase(int256 percentageChange) internal {
+    function _rebase(uint256 percentageChange) internal {
         require(
-            percentageChange >= -100 && percentageChange <= 1000,
-            "Percentage change should be between -100% and 1000%"
+            percentageChange >= 1 && percentageChange <= 1000,
+            "Percentage change should be between 1% and 1000%"
         );
-
         uint256 oldScalingFactor = _scalingFactor;
-        if (percentageChange < 0) {
-            _scalingFactor =
-                (_scalingFactor * uint256(100 + percentageChange)) /
-                100;
-        } else {
-            _scalingFactor =
-                (_scalingFactor * (100 + uint256(percentageChange))) /
-                100;
-        }
+        _scalingFactor = (_scalingFactor * percentageChange) / 100;
 
         emit Rebase(oldScalingFactor, _scalingFactor);
     }
@@ -246,14 +237,14 @@ contract Rebasable is Context, IERC20, IERC20Metadata {
     function getScaledAmount(
         uint256 normalizedAmount
     ) public view returns (uint256) {
-        return (normalizedAmount * _scalingFactor) / (10 ** scalingDecimals());
+        return (normalizedAmount * _scalingFactor) / 100;
     }
 
     function getNormalizedAmount(
         uint256 scaledAmount
     ) public view returns (uint256) {
         if (_scalingFactor == 0) return 0;
-        return (scaledAmount * (10 ** scalingDecimals())) / (_scalingFactor);
+        return (scaledAmount * 100) / (_scalingFactor);
     }
 
     function getScalingFactor() public view returns (uint256) {

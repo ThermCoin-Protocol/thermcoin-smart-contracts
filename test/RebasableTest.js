@@ -57,19 +57,19 @@ describe("RebasableTest", function () {
         });
 
         it("should change the scaling factor", async function () {
-            await contract.rebase(10);
-            expect(await contract.getScalingFactor()).to.not.equal(1000);
+            await contract.rebase(110);
+            expect(await contract.getScalingFactor()).to.not.equal(100);
         });
 
         it("should emit Rebase event", async function () {
-            await expect(contract.rebase(10))
+            await expect(contract.rebase(110))
                 .to.emit(contract, "Rebase")
-                .withArgs(1000, 1100);
+                .withArgs(100, 110);
         });
 
         it("should adjust balances based on scaling factor", async function () {
             await contract.transfer(addr1.address, 500);
-            await contract.rebase(10);
+            await contract.rebase(110);
 
             // owner and addr1 will still have 50% of the total supply after rebase.
             const totalSupply = await contract.totalSupply();
@@ -78,11 +78,11 @@ describe("RebasableTest", function () {
         });
 
         it("should prevent rebase if percentageChange is out of bounds", async function () {
-            await expect(contract.rebase(-101)).to.be.revertedWith(
-                "Percentage change should be between -100% and 1000%"
+            await expect(contract.rebase(0)).to.be.revertedWith(
+                "Percentage change should be between 1% and 1000%"
             );
             await expect(contract.rebase(1001)).to.be.revertedWith(
-                "Percentage change should be between -100% and 1000%"
+                "Percentage change should be between 1% and 1000%"
             );
         });
     });
@@ -120,12 +120,24 @@ describe("RebasableTest", function () {
         });
 
         it("should convert normalized amount to scaled amount", async function () {
-            expect(await contract.getScaledAmount(100)).to.equal(100 * (await contract.getScalingFactor()) / (10 ** 3));
+            await contract.rebase(200);
+            expect(await contract.getScaledAmount(100)).to.equal(200);
         });
 
         it("should convert scaled amount to normalized amount", async function () {
-            const scaledAmount = 100 * (await contract.getScalingFactor()) / (10 ** 3);
-            expect(await contract.getNormalizedAmount(scaledAmount)).to.equal(100);
+            await contract.rebase(200);
+            expect(await contract.getNormalizedAmount(200)).to.equal(100);
         });
     });
+
+    describe("TokenRebasing", function () {
+        beforeEach(async function () {
+            await contract.mint(owner.address, 1000);
+        });
+        it("Owner should have correct amt of tokens before/after a rebase cycle", async function () {
+            expect(await contract.balanceOf(owner.address)).to.equal(1000);
+            await contract.rebase(200);
+            expect(await contract.balanceOf(owner.address)).to.equal(2000);
+        })
+    })
 });

@@ -13,7 +13,7 @@ contract RebasableTest is Rebasable {
         _mint(account, amount);
     }
 
-    function rebase(int256 percentageChange) public {
+    function rebase(uint256 percentageChange) public {
         _rebase(percentageChange);
     }
 }

@@ -41,7 +41,7 @@ contract ThermCoin is Rebasable, Ownable {
 
     // Change each account's balance to match the new total supply
     function rebase(uint256 percentageChange) public onlyOwner {
-        _rebase(int256(percentageChange));
+        _rebase(percentageChange);
     }
 
     function mint(address to, uint256 amount) public onlyOwner {
