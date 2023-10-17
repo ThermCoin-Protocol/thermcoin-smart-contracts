@@ -130,14 +130,19 @@ describe("RebasableTest", function () {
         });
     });
 
-    describe("TokenRebasing", function () {
+    describe("Another Rebasing Test", function () {
         beforeEach(async function () {
             await contract.mint(owner.address, 1000);
         });
-        it("Owner should have correct amt of tokens before/after a rebase cycle", async function () {
+        it("Test supply growth by 200%", async function () {
             expect(await contract.balanceOf(owner.address)).to.equal(1000);
             await contract.rebase(200);
             expect(await contract.balanceOf(owner.address)).to.equal(2000);
+        })
+        it("Test supply shrink by 50%", async function () {
+            expect(await contract.balanceOf(owner.address)).to.equal(1000);
+            await contract.rebase(50);
+            expect(await contract.balanceOf(owner.address)).to.equal(500);
         })
     })
 });
