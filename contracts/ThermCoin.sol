@@ -85,6 +85,26 @@ contract ThermCoin is Rebasable, Ownable {
             (_feeIncrement * (_prevTxVolume / _volumeThreshold)));
     }
 
+    /* --------------------- */
+    /* Rewards distribution  */
+    /* --------------------- */
+
+    function distributeReward(
+        address[] calldata recipients,
+        uint256 amount,
+        uint256 startIndex,
+        uint256 batchSize
+    ) external onlyOwner {
+        require(startIndex < recipients.length, "Invalid start index");
+        uint256 endIndex = startIndex + batchSize > recipients.length
+            ? recipients.length
+            : startIndex + batchSize;
+
+        for (uint256 i = startIndex; i < endIndex; i++) {
+            _transfer(msg.sender, recipients[i], amount);
+        }
+    }
+
     /* -------------------------- */
     /* Meta Transaction functions */
     /* -------------------------- */
