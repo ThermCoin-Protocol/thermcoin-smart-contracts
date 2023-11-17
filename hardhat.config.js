@@ -14,7 +14,7 @@ module.exports = {
   solidity: "0.8.18",
   networks: {
     thermcoin: {
-      url: `http://3.80.95.168:8545`,
+      url: `http://172.13.119.20:8545`,
       accounts: [THERMCOIN_PRIVATE_KEY],
     },
   },

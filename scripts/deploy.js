@@ -7,7 +7,12 @@
 const hre = require("hardhat");
 
 async function main() {
-  const premintAmt = 1000000000;
+  // --------------------------------------------------------- //
+  // ~ 6,103,945,193,427 Therms of energy produced in 2022:
+  // Source:
+  //  https://ourworldindata.org/energy-production-consumption
+  // --------------------------------------------------------- //
+  const premintAmt = 6103945193427;
   const baseTxFee = 1;
   const feeIncrement = 1;
   const volumeThreshold = 1000;
