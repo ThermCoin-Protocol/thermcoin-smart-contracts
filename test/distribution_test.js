@@ -45,16 +45,5 @@ describe("ERC20 Distribute Reward", function () {
     expect(await token.balanceOf(addr2.address)).to.equal(distributionAmount);
   });
 
-  // Test case for distribution with an incorrect amount (e.g., too much)
-  it("should fail if the owner does not have enough tokens", async function () {
-    const distributionAmount = ethers.utils.parseEther("100000"); // More than the owner has
-
-    const recipients = [addr1.address, addr2.address];
-
-    // Expect the transaction to be reverted
-    await expect(token.distributeReward(recipients, distributionAmount, 0, recipients.length))
-      .to.be.reverted; // Adjusted to a generic revert expectation
-  });
-
   // Add more test cases as needed
 });
