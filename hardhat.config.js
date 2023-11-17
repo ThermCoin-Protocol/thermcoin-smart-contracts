@@ -8,13 +8,19 @@ require("dotenv").config();
 // go to Account Details > Export Private Key
 // Beware: NEVER put real Ether into testing accounts
 const THERMCOIN_PRIVATE_KEY = process.env.PRIVATE_KEY;
+const LOCAL_URL = process.env.LOCAL_URL;
+const PUBLIC_URL = process.env.PUBLIC_URL;
 
 /** @type import('hardhat/config').HardhatUserConfig */
 module.exports = {
   solidity: "0.8.18",
   networks: {
-    thermcoin: {
-      url: `http://172.13.119.20:8545`,
+    thermcoin_dev: {
+      url: LOCAL_URL,
+      accounts: [THERMCOIN_PRIVATE_KEY],
+    },
+    thermcoin_prod: {
+      url: PUBLIC_URL,
       accounts: [THERMCOIN_PRIVATE_KEY],
     },
   },
