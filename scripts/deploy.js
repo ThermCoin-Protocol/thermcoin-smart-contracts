@@ -38,7 +38,6 @@ async function main() {
     "Deployer balance: ",
     hre.ethers.utils.formatUnits(await token.balanceOf(deployer.address), 18)
   );
-  console.log(await token.getScalingFactor());
 }
 
 main()

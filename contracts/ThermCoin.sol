@@ -7,9 +7,6 @@ import "@openzeppelin/contracts/access/Ownable.sol";
 import "@openzeppelin/contracts/utils/math/SafeMath.sol";
 import "./Rebasable.sol";
 
-// import console
-import "hardhat/console.sol";
-
 contract ThermCoin is Rebasable, Ownable {
     // Tokenomics
     uint256 private _baseFee; // Transaction fee (in wei)
