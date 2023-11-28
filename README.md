@@ -2,22 +2,22 @@
 
 ## --- Addresses ---
 
-Contract address: TBA <br/>
+Contract address: 0x70d0Df7F4c552813033a722931cA45e3b26c5220 <br/>
 
-## --- TCFT/ERC20 High Level Overview ---
+## --- ThermCoin Fungible Token High Level Overview ---
 
 ThermCoin is an ERC20 token with several unique features, including meta-transactions, dynamic transaction fees,
 rewards for pool operators, and unique token supply mechanics.
 
 ### Features:
 
-**Meta Transactions**: ThermCoin uses meta transactions to avoid gas fee in native token for the end user. The transactions are processed by relayer's who
+**Meta Transactions**: ThermCoin uses meta transactions to avoid gas fee in native token for the end user. The transactions can be processed by relayer nodes.
 
 **ERC20 Standard**: ThermCoin is an ERC20-compliant token, which means it is compatible with most Ethereum wallets and decentralized applications.
 
-**Transaction Fee**: The contract implements a dynamic transaction fee mechanism, which is distributed among whitelisted pool operators and meta transaction relayer's.
+**Transaction Fee**: The contract implements a dynamic transaction fee mechanism calculated based on volume to avoid network congestion.
 
-**Rebase Token Supply**: The token supply is rebased every ~year, proportional to global enery production. Every user's balance is adjusted equitably.
+**Rebasable Token Supply**: The token supply is rebased every ~year, proportional to global enery production. Every user's balance is adjusted proportional to current holdings.
 
 ## --- ERC20 Token created with OpenZepellin ---
 

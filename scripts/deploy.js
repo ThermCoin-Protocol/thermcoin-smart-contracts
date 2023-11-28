@@ -12,7 +12,7 @@ async function main() {
   // Source:
   //  https://ourworldindata.org/energy-production-consumption
   // --------------------------------------------------------- //
-  const premintAmt = 6103945193427;
+  const premintAmt = 16000000000;
   const baseTxFee = 1;
   const feeIncrement = 1;
   const volumeThreshold = 1000;
@@ -25,6 +25,7 @@ async function main() {
   console.log("\n");
   console.log("-------------------- INITIAL STATE --------------------");
   console.log("Deploying contracts with the account:", deployer.address);
+  const initialBalance = await deployer.getBalance();
 
   const Token = await ethers.getContractFactory("ThermCoin");
   const token = await Token.deploy(
@@ -35,9 +36,12 @@ async function main() {
   );
   console.log("Token address:", token.address);
   console.log(
-    "Deployer balance: ",
+    "Deployer ThermCoin balance: ",
     hre.ethers.utils.formatUnits(await token.balanceOf(deployer.address), 18)
   );
+  const finalBalance = await deployer.getBalance();
+  console.log("L1 gas used: ", initialBalance.sub(finalBalance).toString());
+
 }
 
 main()
