@@ -8,7 +8,7 @@ const hre = require("hardhat");
 
 async function main() {
   // --------------------------------------------------------- //
-  // ~ 6,103,945,193,427 Therms of energy produced in 2022:
+  // ~ 16,000,000,000 Therms of energy produced in 2022:
   // Source:
   //  https://ourworldindata.org/energy-production-consumption
   // --------------------------------------------------------- //

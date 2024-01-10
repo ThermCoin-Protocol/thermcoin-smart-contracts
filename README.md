@@ -2,7 +2,7 @@
 
 ## --- Addresses ---
 
-Contract address: 0x70d0Df7F4c552813033a722931cA45e3b26c5220 <br/>
+Contract address: 0xc109416D90e75Dcb9A70972D30ADe475427EDaA8 <br/>
 
 ## --- ThermCoin Fungible Token High Level Overview ---
 
